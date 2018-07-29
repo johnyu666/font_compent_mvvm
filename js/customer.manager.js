@@ -1,3 +1,4 @@
+
 function myAjax(url,method,data,callback){
     let contentType="application/json";
     let options={url:url,type:method,contentType:contentType};
@@ -18,19 +19,47 @@ function form2json(form) {
     return obj;
 }
 
-function CustomerComponent(view,url) {
-    /*局部变量初始块*/
-    let model=null;
 
-    let tbody=view.find("tbody");
-    let updateForm=view.find("#updateForm");
-    let currentCustomer=null;
-    initBindEvent=initBindEvent.bind(this);
-    renderTable=renderTable.bind(this);
 
-    /*局部函数*/
-    function renderTable() {
-        tbody.empty();
+function Model(comp) {
+    Array.call(this);
+    if(typeof this.add!='function'){
+        Model.prototype.add=function (c) {
+            this.push(c)
+            comp.render();
+        }
+    }
+    if(typeof this.urd!='function'){
+        Model.prototype.urd=function () {
+            [].splice.apply(this,arguments);
+            comp.render();
+        }
+    }
+    if(typeof this.pushArray!='function'){
+        Model.prototype.pushArray=function () {
+            [].push.apply(this,arguments[0]);
+            comp.render();
+        }
+    }
+}
+Model.prototype=new Array();
+
+
+
+function AppComponent($view,url) {
+    let model=new Model(this);
+    let updateComp=null;
+    (function () {
+        new AddFormComponet($view.find("#addForm"),model,url);
+        updateComp=new UpdateFormComponet($view.find("#updateForm"),model,url);
+        myAjax(url,"GET",null, data=> {
+            model.pushArray(data);
+        });
+    })();
+
+    this.render=function () {
+        let $tbody=$view.find("tbody");
+        $tbody.empty();
         model.forEach((item,index)=>{
             $("<tr>")
                 .append($("<td>").text(item.id))
@@ -41,72 +70,70 @@ function CustomerComponent(view,url) {
                 .on("dblclick",(e)=>{
                     this.selectCustomer(item);
                 })
-                .appendTo(tbody);
+                .appendTo($tbody);
         });
     }
 
-    function initBindEvent() {
-        $("#addForm").on("submit",(e)=>{
-            e.preventDefault();
-            let data=form2json($(e.target));
-            myAjax(url,"POST",data,(c)=>{
-                this.addCustomer(c);
-            })
-
-        })
-        $("#updateForm").on("submit",(e)=>{
-            e.preventDefault();
-            let data=form2json($(e.target));
-            myAjax(url+currentCustomer.id,"PUT",data,(c)=>{
-                this.updateCutomer(c);
-            })
-        })
-    }
-
-
-    this.init=function () {
-        initBindEvent();
-        myAjax(url,"GET",null, data=> {
-            model=data;
-            this.render();
-        });
-    }
-    this.render=function () {
-        renderTable();
-    }
-
-
-    this.selectCustomer=function (item) {
-        currentCustomer=item;
-        let cname=updateForm.children("[name=cname]").val(currentCustomer.cname);
-    }
-    this.updateCutomer=function (item) {
-        myAjax(url+item.id,"PUT",item,customer=>{
-            let index=model.indexOf(currentCustomer);
-            model.splice(index,1,customer);
-            this.render();
-        });
-    };
     this.delete=function (item) {
         myAjax(url+item.id,"DELETE",null,data=>{
             if(data.error){
                 alert("删除失败");
-                this.init();
+                this.render();
             }
             else{
                 let index=model.indexOf(item);
-                model.splice(index,1);
-                this.render();
+                model.urd(index,1);
             }
         });
     }
-    this.addCustomer=function (customer) {
-        model.push(customer);
-        this.render();
+
+
+    this.selectCustomer=function (item) {
+        updateComp.render(item);
     }
 }
 
+
+function AddFormComponet($view,model,url) {
+    $view.on("submit",(e)=>{
+        e.preventDefault();
+        let data=form2json($(e.target));
+        myAjax(url,"POST",data,(c)=>{
+            model.add(c);
+        })
+    })
+}
+
+function UpdateFormComponet($view,model,url) {
+    let cur=null;
+    //为更新表单添加提交事件处理
+    $view.on("submit",(e)=>{
+        e.preventDefault();
+
+        let data=form2json($(e.target));
+        myAjax(url+cur.id,"PUT",data,(c)=>{
+            let index=model.indexOf(cur);
+            console.log(index)
+            model.urd(index,1,c);
+        })
+    })
+
+    this.render=function (item) {
+        cur=item;
+        $view.find("[name=cname]").val(item.cname);
+    }
+}
+
+
+
 $(function () {
-    let component=new CustomerComponent($("#app"),"http://localhost:3000/customers/");
-     component.init();
+    let app=new AppComponent($("#app"),"http://localhost:3000/customers/");
 });
+
+
+
+
+
+
+
+

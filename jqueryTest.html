@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/_jquery@3.3.1@jquery/dist/jquery.js"></script>
+    <style>
+        .tip{
+            border: 1px solid green;
+            color: red;
+            background-color: yellow;
+
+        }
+        #show{
+            width: 200px;
+            height: 300px;
+            background-color: blue;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="a" name="lek">adiv</div>
+    <div id="b">
+        <li>b li</li>
+    </div>
+    <ul>
+        <li name="jack" class="m n">jack</li>
+        <li name="john" class="n">john</li>
+        <li><span>span in li</span></li>
+        <span>span</span>
+        <li name="mik">abc</li>
+    </ul>
+    <li>outer li</li>
+    <form action="">
+        <input type="text" id="name">
+        <input id="abc" type="checkbox" checked value="0">ddd</input>
+        <input type="checkbox" value="1"></input>
+    </form>
+    <a href="http://www.sohu.com" id="test">test</a>
+    <div id="show"></div>
+<script>
+    $(function () {
+        $("a").on('click',function (e) {
+            // $.ajax({type:"GET",url:' http://localhost:3000/users'})
+            //     .done(function (users) {
+            //         console.log(users);
+            //     });
+            let opt={type:'POST',url:'http://localhost:3000/users'};
+            opt.contentType="application/json";
+            opt.data=JSON.stringify({name:'mkik',age:123,email:'dddf@123.com'});
+            $.ajax(opt)
+                .done(function (user) {
+                    console.log(user.id);
+                });
+            e.preventDefault();
+        })
+
+
+
+
+
+
+    })
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

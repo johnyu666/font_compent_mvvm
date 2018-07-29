@@ -1,0 +1,28 @@
+{
+  "customers": [
+    {
+      "cname": "mike",
+      "id": 2
+    },
+    {
+      "cname": "mike",
+      "id": 4
+    },
+    {
+      "cname": "mipus",
+      "id": 6
+    },
+    {
+      "cname": "adsfsd",
+      "id": 11
+    },
+    {
+      "cname": "mi",
+      "id": 12
+    },
+    {
+      "cname": "aaa",
+      "id": 13
+    }
+  ]
+}

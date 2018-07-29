@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/_bootstrap@3.3.7@bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../node_modules/_bootstrap@3.3.7@bootstrap/dist/css/bootstrap-theme.css">
+    <script src="../node_modules/_jquery@3.3.1@jquery/dist/jquery.js"></script>
+    <script src="../node_modules/_bootstrap@3.3.7@bootstrap/dist/js/bootstrap.js"></script>
+    <style>
+        body{
+            font-size: 4rem;
+        }
+        div[class|=col-md]{
+            border: 1px solid green;
+        }
+        span{
+            color: red;
+            font-size: 10em;
+        }
+    </style>
+</head>
+<body>
+<!-- Button trigger modal -->
+<button id="show1" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
+<button id="show2">show2</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">gooD!!!!</h4>
+            </div>
+            <div class="modal-body">
+                <h1>HEllo.....</h1>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-lg-3">
+           col
+        </div>
+        <div class="col-md-6 col-lg-9">col</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">col</div>
+        <div class="col-md-3">col</div>
+        <div class="col-md-6">col</div>
+    </div>
+</div>
+
+
+<button class="btn btn-xs btn-info">test</button>
+<span class="glyphicon glyphicon-music"></span>
+<table class="table table-bordered table-striped table-hover">
+    <tr class="success">
+        <td>abc</td>
+        <td>abc</td>
+        <td>abc</td>
+    </tr>
+    <tr>
+        <td>abc</td>
+        <td>abc</td>
+        <td>abc</td>
+    </tr>
+    <tr>
+        <td>abc</td>
+        <td>abc</td>
+        <td>abc</td>
+    </tr>
+</table>
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dropup
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+    </ul>
+</div>
+<script>
+    $(function () {
+        $("#show2").on("click",function () {
+            alert("eljojo")
+            $("#myModal").modal();
+        })
+    })
+</script>
+</body>
+</html>
